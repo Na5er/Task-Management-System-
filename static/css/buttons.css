@@ -1,0 +1,76 @@
+/* ========== BUTTONS ========== */
+.btn {
+    display: inline-block;
+    padding: 12px 24px;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    border-radius: 9999px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-primary,
+.btn-accent,
+button.btn-primary,
+a.btn-primary,
+button[type="submit"],
+input[type="submit"],
+input[type="button"],
+.header-right .btn-primary,
+.modal-actions .btn-primary,
+.panel-btn,
+.fab {
+    background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%) !important;
+    color: #06210f !important;
+    border: 1px solid rgba(22, 163, 74, 0.85) !important;
+    box-shadow: 0 8px 20px rgba(34, 197, 94, 0.28) !important;
+}
+
+.btn-primary:hover,
+.btn-accent:hover,
+button.btn-primary:hover,
+a.btn-primary:hover,
+button[type="submit"]:hover,
+input[type="submit"]:hover,
+input[type="button"]:hover,
+.header-right .btn-primary:hover,
+.modal-actions .btn-primary:hover,
+.panel-btn:hover,
+.fab:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(34, 197, 94, 0.34) !important;
+}
+
+.btn-outline,
+button.btn-outline,
+a.btn-outline {
+    background: rgba(255, 255, 255, 0.06) !important;
+    border: 1.5px solid #22c55e !important;
+    color: #22c55e !important;
+}
+
+.btn-outline:hover,
+button.btn-outline:hover,
+a.btn-outline:hover {
+    background: #22c55e !important;
+    color: #06210f !important;
+    box-shadow: 0 6px 18px rgba(34, 197, 94, 0.24) !important;
+}
+
+.btn-large {
+    padding: 16px 32px;
+    font-size: 16px;
+}
+
+.btn-small {
+    padding: 8px 16px;
+    font-size: 12px;
+}
+
+.btn-block {
+    width: 100%;
+    display: block;
+}

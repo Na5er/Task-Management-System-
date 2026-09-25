@@ -1,0 +1,185 @@
+{% extends "base.html" %}
+
+{% block title %}{{ task.title }} - TaskFlow{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/task-detail.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="task-detail-container">
+    <!-- Back Button -->
+    <div class="back-button-section">
+        <a href="{{ url_for('dashboard') }}" class="back-link">← Back to Tasks</a>
+    </div>
+
+    <!-- Task Detail Card -->
+    <div class="task-detail-card">
+        <!-- Header -->
+        <div class="task-detail-header">
+            <div>
+                <h1>{{ task.title }}</h1>
+                <p class="task-status-badge" data-status="{{ task.status }}">
+                    {% if task.status == 'todo' %}
+                        📝 To Do
+                    {% elif task.status == 'in_progress' %}
+                        ⚡ In Progress
+                    {% elif task.status == 'completed' %}
+                        ✅ Completed
+                    {% endif %}
+                </p>
+            </div>
+            <div class="task-actions">
+                {% if current_user.role == 'admin' or current_user.id == task.user_id %}
+                    <button class="btn-small" id="editTaskBtn">✏️ Edit</button>
+                    <button class="btn-small btn-danger" id="deleteTaskBtn">🗑️ Delete</button>
+                {% elif current_user.id == task.assigned_to %}
+                    <button class="btn-small" id="submitAnswerBtn">📝 Submit Answer</button>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Description -->
+        <div class="task-section">
+            <h3>Description</h3>
+            <p class="task-description">{{ task.description or 'No description provided' }}</p>
+        </div>
+
+        <!-- Answer/Response Section -->
+        {% if task.answer %}
+        <div class="task-section">
+            <h3>✍️ Answer/Response</h3>
+            <div class="answer-box">
+                <p class="task-answer">{{ task.answer }}</p>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Details Grid -->
+        <div class="task-details-grid">
+            <!-- Priority -->
+            <div class="detail-item">
+                <label>Priority</label>
+                <span class="priority-badge" data-priority="{{ task.priority }}">
+                    {% if task.priority == 'high' %}🔴 High
+                    {% elif task.priority == 'medium' %}🟡 Medium
+                    {% elif task.priority == 'low' %}🟢 Low
+                    {% endif %}
+                </span>
+            </div>
+
+            <!-- Deadline -->
+            <div class="detail-item">
+                <label>Deadline</label>
+                {% if task.deadline %}
+                    <span class="deadline-text">{{ task.deadline.strftime('%Y-%m-%d %H:%M') }}</span>
+                {% else %}
+                    <span class="text-muted">No deadline</span>
+                {% endif %}
+            </div>
+
+            <!-- Status -->
+            <div class="detail-item">
+                <label>Status</label>
+                <span class="status-text">{{ task.status.replace('_', ' ').title() }}</span>
+            </div>
+
+            <!-- Created At -->
+            <div class="detail-item">
+                <label>Created</label>
+                <span class="text-muted">{{ task.created_at.strftime('%Y-%m-%d %H:%M') }}</span>
+            </div>
+
+            <!-- Assigned To -->
+            <div class="detail-item">
+                <label>Assigned To</label>
+                {% if task.assigned_to %}
+                    <span>User ID: {{ task.assigned_to }}</span>
+                {% else %}
+                    <span class="text-muted">Not assigned</span>
+                {% endif %}
+            </div>
+
+            <!-- Completed At -->
+            <div class="detail-item">
+                <label>Completed</label>
+                {% if task.completed_at %}
+                    <span class="text-muted">{{ task.completed_at.strftime('%Y-%m-%d %H:%M') }}</span>
+                {% else %}
+                    <span class="text-muted">Not completed yet</span>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="task-action-buttons">
+            {% if task.status != 'completed' %}
+                <button class="btn-primary" id="completeTaskBtn">✅ Mark as Complete</button>
+            {% else %}
+                <button class="btn-secondary" id="reopenTaskBtn">🔄 Reopen Task</button>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Comments/Discussion Section -->
+    <div class="comments-section">
+        <div class="comments-header">
+            <h2>💬 Discussion & Updates</h2>
+            <span class="comments-count" id="commentsCount">0 comments</span>
+        </div>
+
+        <!-- Add Comment Form -->
+        <div class="add-comment-box">
+            <div class="comment-avatar" id="currentUserAvatar">{{ current_user.username[0].upper() }}</div>
+            <div class="comment-input-wrapper">
+                <textarea 
+                    id="commentInput" 
+                    placeholder="Add a comment or update about this task..." 
+                    rows="3"
+                ></textarea>
+                <div class="comment-actions">
+                    <button class="btn-comment-submit" id="submitCommentBtn">Post Comment</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Comments List -->
+        <div id="commentsList" class="comments-list">
+            <p class="no-comments">No comments yet. Be the first to comment!</p>
+        </div>
+    </div>
+    
+    <!-- Answer Submission Modal -->
+    <div id="answerModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeAnswerModal()">&times;</button>
+            <h2 id="answerModalTitle">Submit Your Answer</h2>
+            <form id="answerForm" onsubmit="submitAnswerForm(event)">
+                <div class="form-group">
+                    <label for="answerText">Your Answer/Response:</label>
+                    <textarea 
+                        id="answerText" 
+                        rows="6" 
+                        placeholder="Write your answer here..." 
+                        required
+                        style="width: 100%; padding: 0.8rem; border: 1px solid #e5e7eb; border-radius: 8px; font-family: inherit; font-size: 1rem;"
+                    ></textarea>
+                </div>
+                <div style="display: flex; gap: 1rem; margin-top: 1.5rem; justify-content: flex-end;">
+                    <button type="button" class="btn-outline" onclick="closeAnswerModal()">Cancel</button>
+                    <button type="submit" class="btn-primary">Submit Answer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Store task ID and user info as data attribute -->
+    <div id="taskData" data-task-id="{{ task.id }}" data-current-user-id="{{ current_user.id }}" data-task-owner-id="{{ task.user_id }}" data-task-assigned-to="{{ task.assigned_to or '' }}" style="display: none;"></div>
+</div>
+
+<script>
+    // Pass user data to JavaScript
+    window.currentUserAvatar = "{{ current_user.avatar_color or '#667eea' }}";
+</script>
+<script src="{{ url_for('static', filename='js/task-detail.js') }}"></script>
+{% endblock %}

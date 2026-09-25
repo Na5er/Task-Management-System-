@@ -1,0 +1,47 @@
+/* ========== GLOBAL BASE STYLES ========== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    height: 100%;
+    overflow: auto;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: var(--text);
+    background: var(--light);
+    line-height: 1.6;
+    min-height: 100%;
+    overflow: auto;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Animated background for dashboard */
+.page-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background: radial-gradient(circle at 20% 30%, #7a3fb1 0%, transparent 60%),
+                radial-gradient(circle at 80% 70%, #ff3cac 0%, transparent 60%),
+                linear-gradient(120deg, #2d1856 0%, #7a3fb1 60%, #ff3cac 100%);
+    opacity: 1;
+    transition: opacity 300ms ease;
+    filter: blur(0.5px) saturate(120%);
+    animation: bgShift 22s ease-in-out infinite;
+}
+
+@keyframes bgShift {
+    0% { filter: blur(0.5px) saturate(120%) brightness(1); }
+    50% { filter: blur(2px) saturate(140%) brightness(1.08); }
+    100% { filter: blur(0.5px) saturate(120%) brightness(1); }
+}

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Notification System Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #f5f5f5; }
+        .test-box { background: white; padding: 20px; border-radius: 8px; margin: 10px 0; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        button { padding: 10px 20px; background: #667eea; color: white; border: none; border-radius: 5px; cursor: pointer; margin: 5px; }
+        button:hover { background: #5568d3; }
+        .notification { padding: 10px; background: #f0f0f0; margin: 5px 0; border-radius: 4px; }
+        .success { color: #22c55e; }
+        .error { color: #ef4444; }
+    </style>
+</head>
+<body>
+    <h1>🔔 Notification System Tester</h1>
+    
+    <div class="test-box">
+        <h2>Test 1: Fetch Notifications</h2>
+        <button onclick="testFetchNotifications()">Fetch Notifications</button>
+        <div id="fetch-result"></div>
+    </div>
+    
+    <div class="test-box">
+        <h2>Test 2: Current User</h2>
+        <button onclick="testCurrentUser()">Check Current User</button>
+        <div id="user-result"></div>
+    </div>
+    
+    <div class="test-box">
+        <h2>Test 3: Console Logs</h2>
+        <p>Open browser DevTools (F12) → Console tab to see detailed logs</p>
+    </div>
+
+    <script>
+        async function testFetchNotifications() {
+            const result = document.getElementById('fetch-result');
+            result.innerHTML = '<p>Loading...</p>';
+            
+            try {
+                console.log('🔍 Fetching /api/notifications...');
+                const response = await fetch('/api/notifications');
+                console.log('📡 Response status:', response.status, response.statusText);
+                
+                if (!response.ok) {
+                    const text = await response.text();
+                    console.error('❌ Response error:', text);
+                    result.innerHTML = `<p class="error">❌ Error: ${response.status} ${response.statusText}</p><pre>${text.substring(0, 500)}</pre>`;
+                    return;
+                }
+                
+                const notifications = await response.json();
+                console.log('✅ Notifications received:', notifications);
+                
+                result.innerHTML = `
+                    <p class="success">✅ Success! Received ${notifications.length} notifications</p>
+                    ${notifications.map((n, i) => `
+                        <div class="notification">
+                            <strong>Notification ${i + 1}:</strong><br>
+                            Message: ${n.message}<br>
+                            Type: ${n.type}<br>
+                            Created: ${new Date(n.created_at).toLocaleString()}<br>
+                            Read: ${n.read_at ? 'Yes' : 'No'}
+                        </div>
+                    `).join('')}
+                `;
+            } catch (err) {
+                console.error('❌ Fetch error:', err);
+                result.innerHTML = `<p class="error">❌ Error: ${err.message}</p>`;
+            }
+        }
+        
+        async function testCurrentUser() {
+            const result = document.getElementById('user-result');
+            result.innerHTML = '<p>Loading...</p>';
+            
+            try {
+                console.log('🔍 Fetching /api/users...');
+                const response = await fetch('/api/users');
+                
+                if (!response.ok) {
+                    result.innerHTML = `<p class="error">❌ Not authenticated. Please <a href="/login">login first</a>.</p>`;
+                    return;
+                }
+                
+                const users = await response.json();
+                console.log('✅ Users:', users);
+                result.innerHTML = `<p class="success">✅ Logged in successfully! Found ${users.length} users in system.</p>`;
+            } catch (err) {
+                console.error('❌ Error:', err);
+                result.innerHTML = `<p class="error">❌ Error: ${err.message}</p>`;
+            }
+        }
+        
+        // Auto-run tests on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            console.log('%c🧪 Notification System Tester Loaded', 'font-size: 16px; font-weight: bold; color: #667eea');
+            console.log('Click buttons above to test notification system');
+        });
+    </script>
+</body>
+</html>

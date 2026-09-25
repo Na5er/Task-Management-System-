@@ -1,0 +1,295 @@
+/* ========== PURPLE ACCENT & VIOLET GLOW THEME ========== */
+
+body {
+    background: var(--light);
+    background-image: var(--glow-purple);
+}
+
+.btn-primary,
+.header-right .btn-primary,
+.btn-accent,
+button.btn-primary,
+a.btn-primary,
+button[type="submit"],
+input[type="submit"],
+input[type="button"],
+.modal-actions .btn-primary,
+.panel-btn,
+.fab {
+    background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%) !important;
+    border-color: rgba(22, 163, 74, 0.9) !important;
+    color: #06210f !important;
+    box-shadow: 0 10px 24px rgba(34, 197, 94, 0.26) !important;
+}
+
+.btn-primary:hover,
+.btn-accent:hover,
+.header-right .btn-primary:hover,
+button.btn-primary:hover,
+a.btn-primary:hover,
+button[type="submit"]:hover,
+input[type="submit"]:hover,
+input[type="button"]:hover,
+.modal-actions .btn-primary:hover,
+.panel-btn:hover,
+.fab:hover {
+    box-shadow: 0 14px 30px rgba(34, 197, 94, 0.3) !important;
+}
+
+.btn-outline,
+button.btn-outline,
+a.btn-outline {
+    border-color: #22c55e !important;
+    color: #22c55e !important;
+}
+
+.btn-outline:hover,
+button.btn-outline:hover,
+a.btn-outline:hover {
+    background: #22c55e !important;
+    color: #06210f !important;
+}
+
+.sidebar {
+    background: linear-gradient(180deg, #0d2f2d 0%, #123b39 100%);
+    border-right: 1px solid rgba(186, 228, 205, 0.18);
+    box-shadow: inset -1px 0 0 rgba(255,255,255,0.03);
+}
+
+.sidebar .nav-item {
+    border-left: 4px solid transparent;
+    padding-left: 20px;
+    color: rgba(224, 245, 233, 0.82);
+}
+
+.sidebar .nav-item:hover,
+.sidebar .nav-item.active {
+    background: rgba(150, 206, 176, 0.12);
+    border-left-color: #d4b369;
+    color: #f6f8f3;
+}
+
+.sidebar .nav-item .icon {
+    color: #d2f2df;
+}
+
+.sidebar .nav-item.active .icon {
+    color: #f4d88d;
+}
+
+.sidebar-footer {
+    background: rgba(10, 35, 33, 0.68);
+    border-top-color: rgba(186, 228, 205, 0.12);
+}
+
+.user-avatar,
+.assignee-avatar,
+.auth-left .avatar {
+    background: linear-gradient(135deg, #bfead1 0%, #d9c47a 100%) !important;
+    color: #0d2d2b !important;
+}
+
+.mini-icon-btn {
+    background: rgba(158, 212, 179, 0.12);
+    border: 1px solid rgba(212, 179, 105, 0.2);
+    color: #f4d88d;
+}
+
+.mini-icon-btn:hover {
+    background: rgba(158, 212, 179, 0.18);
+    border-color: rgba(212, 179, 105, 0.38);
+}
+
+.user-name {
+    color: #f6f8f3;
+}
+
+.user-email {
+    color: rgba(218, 236, 222, 0.72);
+}
+
+.main-content {
+    background: rgba(246, 248, 250, 0.78);
+    transition: none;
+}
+
+.stat-card,
+.task-card,
+.group-card,
+.insight-block,
+.insight-gauge,
+.auth-box {
+    border: 1px solid rgba(147, 51, 234, 0.12);
+}
+
+.stat-card:hover,
+.task-card:hover,
+.group-card:hover {
+    border-color: rgba(147, 51, 234, 0.3);
+    box-shadow: 0 18px 40px rgba(124, 58, 237, 0.1);
+}
+
+.task-card {
+    border-left-color: rgba(147, 51, 234, 0.35);
+}
+
+.task-card.priority-high,
+.task-card.priority-medium,
+.task-card.priority-low {
+    border-left-color: rgba(147, 51, 234, 0.55);
+}
+
+.progress-fill {
+    background: linear-gradient(90deg, #a855f7 0%, #4f46e5 100%);
+}
+
+.progress-fill.complete {
+    background: linear-gradient(90deg, #7c3aed 0%, #c026d3 100%);
+}
+
+.task-assignee {
+    color: #6d28d9;
+}
+
+.task-assignee,
+.group-member-list {
+    background: rgba(124, 58, 237, 0.08);
+    border-radius: 999px;
+    padding: 4px 9px;
+    width: fit-content;
+}
+
+.badge-status.in_progress {
+    background: #f3e8ff;
+    color: #7e22ce;
+}
+
+.badge-status.completed {
+    background: #ede9fe;
+    color: #5b21b6;
+}
+
+.badge-priority.medium {
+    background: #fae8ff;
+    color: #a21caf;
+}
+
+.search-input,
+.filter-select,
+.input-field,
+.select-field,
+.textarea-field {
+    border-color: rgba(147, 51, 234, 0.18);
+}
+
+.input-field,
+.select-field,
+.textarea-field {
+    background: #faf7ff !important;
+}
+
+.search-input:focus,
+.filter-select:focus,
+.input-field:focus,
+.select-field:focus,
+.textarea-field:focus {
+    border-color: #9333ea;
+    box-shadow: 0 0 0 3px rgba(147, 51, 234, 0.14);
+}
+
+.insight-gauge {
+    background: linear-gradient(135deg, #faf5ff 0%, #eef2ff 100%);
+    border-color: rgba(147, 51, 234, 0.28);
+}
+
+.insight-gauge strong,
+.insight-block h3 {
+    color: #7c3aed;
+}
+
+.deadline-warning {
+    background: #fff7ed;
+    border-color: rgba(192, 38, 211, 0.2);
+}
+
+.modal-panel {
+    border: 1px solid rgba(147, 51, 234, 0.2);
+    box-shadow: 0 20px 60px rgba(76, 29, 149, 0.22);
+}
+
+.modal-header,
+.modal-actions {
+    border-color: rgba(147, 51, 234, 0.14);
+}
+
+.auth-page {
+    background: linear-gradient(135deg, rgba(20, 35, 45, 0.08) 0%, rgba(8, 15, 20, 0.1) 100%);
+}
+
+.landing-page .hero {
+    background: linear-gradient(180deg, rgba(8, 15, 20, 0.18), rgba(8, 15, 20, 0.42));
+}
+
+.auth-left {
+    background: linear-gradient(180deg, #12051f 0%, #2e1065 100%);
+}
+
+.auth-right::before {
+    background: linear-gradient(135deg, rgba(30, 10, 68, 0.72) 0%, rgba(76, 29, 149, 0.62) 52%, rgba(157, 23, 77, 0.58) 100%);
+}
+
+.auth-left .muted a,
+.auth-footer a {
+    color: #c026d3;
+}
+
+.hero-bg::after {
+    background: rgba(8, 15, 20, 0.18);
+}
+
+body.dark-mode .main-content {
+    background: rgba(15, 23, 42, 0.82);
+    transition: none;
+}
+
+body.dark-mode .stat-card,
+body.dark-mode .task-card,
+body.dark-mode .group-card,
+body.dark-mode .insight-block,
+body.dark-mode .insight-gauge {
+    border-color: rgba(167, 139, 250, 0.2);
+}
+
+body.dark-mode .task-card:hover,
+body.dark-mode .group-card:hover,
+body.dark-mode .stat-card:hover {
+    border-color: rgba(192, 38, 211, 0.45);
+    box-shadow: 0 18px 40px rgba(76, 29, 149, 0.25);
+}
+
+body.dark-mode .input-field,
+body.dark-mode .select-field,
+body.dark-mode .textarea-field {
+    background: #1e1630 !important;
+    border-color: rgba(167, 139, 250, 0.25) !important;
+}
+
+body.dark-mode .insight-gauge {
+    background: linear-gradient(135deg, #24143b 0%, #172554 100%);
+}
+
+body.dark-mode .task-assignee,
+body.dark-mode .group-member-list {
+    background: rgba(167, 139, 250, 0.16);
+    color: #ddd6fe;
+}
+
+body.dark-mode .badge-status.in_progress {
+    background: rgba(168, 85, 247, 0.2);
+    color: #e9d5ff;
+}
+
+body.dark-mode .badge-status.completed {
+    background: rgba(124, 58, 237, 0.2);
+    color: #ddd6fe;
+}

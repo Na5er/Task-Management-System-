@@ -1,0 +1,451 @@
+/* ========== DARK MODE STYLES ========== */
+
+/* Dark mode toggle button */
+.dark-mode-toggle {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    border: none;
+    background: var(--bg-light);
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow);
+    margin-left: 1rem;
+}
+
+.dark-mode-toggle:hover {
+    background: var(--bg-medium);
+    transform: scale(1.05);
+    box-shadow: var(--shadow-lg);
+}
+
+.dark-mode-toggle svg {
+    width: 24px;
+    height: 24px;
+    transition: all 0.3s ease;
+}
+
+.dark-mode-toggle .sun-icon {
+    fill: #fbbf24;
+}
+
+.dark-mode-toggle .moon-icon {
+    fill: #7c3aed;
+    display: none;
+}
+
+body.dark-mode .dark-mode-toggle .sun-icon {
+    display: none;
+}
+
+body.dark-mode .dark-mode-toggle .moon-icon {
+    display: block;
+}
+
+/* Smooth transitions for dark mode */
+*,
+*::before,
+*::after {
+    transition: background-color 0.3s ease, 
+                color 0.3s ease, 
+                border-color 0.3s ease,
+                box-shadow 0.3s ease;
+}
+
+/* Dark mode specific adjustments */
+body.dark-mode .task-card {
+    background: var(--bg-light);
+    border-color: var(--border);
+    color: var(--text);
+}
+
+body.dark-mode .task-card:hover {
+    background: var(--bg-medium);
+}
+
+body.dark-mode .task-card h3,
+body.dark-mode .task-card p,
+body.dark-mode .task-card .task-meta {
+    color: var(--text);
+}
+
+body.dark-mode .main-content {
+    background: var(--light);
+}
+
+body.dark-mode .dashboard-header h2 {
+    color: var(--text-dark);
+}
+
+body.dark-mode .stat-card {
+    background: var(--bg-light);
+    color: var(--text);
+}
+
+body.dark-mode .stat-card:hover {
+    background: var(--bg-medium);
+}
+
+body.dark-mode .stat-card .stat-label,
+body.dark-mode .stat-card .stat-value {
+    color: var(--text);
+}
+
+body.dark-mode .empty-state {
+    color: var(--text-light);
+}
+
+body.dark-mode .empty-state h3 {
+    color: var(--text-dark) !important;
+}
+
+body.dark-mode .empty-state p {
+    color: var(--text) !important;
+}
+
+body.dark-mode .empty-icon {
+    opacity: 0.8;
+}
+
+body.dark-mode .modal-content {
+    background: var(--bg-light) !important;
+    color: var(--text);
+}
+
+body.dark-mode .modal-panel {
+    background: var(--bg-light) !important;
+    color: var(--text);
+}
+
+body.dark-mode .modal-content h2,
+body.dark-mode .modal-content h3,
+body.dark-mode .modal-header h3,
+body.dark-mode .modal-content label {
+    color: var(--text-dark) !important;
+}
+
+body.dark-mode .modal-overlay {
+    background: rgba(0, 0, 0, 0.8);
+}
+
+body.dark-mode .modal {
+    background: rgba(0, 0, 0, 0.7);
+}
+
+body.dark-mode .modal-header {
+    border-bottom-color: var(--border);
+}
+
+body.dark-mode .modal-actions {
+    border-top-color: var(--border);
+}
+
+body.dark-mode .modal-close {
+    color: var(--text-light);
+}
+
+body.dark-mode .modal-close:hover {
+    color: var(--text-dark);
+}
+
+body.dark-mode .form-group label {
+    color: var(--text-dark) !important;
+}
+
+body.dark-mode .form-group {
+    color: var(--text);
+}
+
+body.dark-mode .modal-body label {
+    color: var(--text-dark) !important;
+}
+
+body.dark-mode #modalTitle {
+    color: var(--text-dark) !important;
+}
+
+body.dark-mode input,
+body.dark-mode textarea,
+body.dark-mode select {
+    background: var(--bg-medium);
+    color: var(--text);
+    border-color: var(--border);
+}
+
+body.dark-mode .input-field,
+body.dark-mode .select-field,
+body.dark-mode .textarea-field {
+    background: var(--bg-medium) !important;
+    color: var(--text) !important;
+    border-color: var(--border) !important;
+}
+
+body.dark-mode input::placeholder,
+body.dark-mode textarea::placeholder {
+    color: var(--text-light);
+}
+
+body.dark-mode .input-field::placeholder,
+body.dark-mode .textarea-field::placeholder {
+    color: var(--text-light) !important;
+}
+
+body.dark-mode input:focus,
+body.dark-mode textarea:focus,
+body.dark-mode select:focus {
+    background: var(--bg-light);
+    border-color: var(--primary);
+    color: var(--text);
+}
+
+body.dark-mode .input-field:focus,
+body.dark-mode .select-field:focus,
+body.dark-mode .textarea-field:focus {
+    background: var(--bg-light) !important;
+    border-color: var(--primary) !important;
+    color: var(--text) !important;
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15) !important;
+}
+
+body.dark-mode .inbox-dropdown {
+    background: var(--bg-light);
+    border-color: var(--border);
+}
+
+body.dark-mode .inbox-item {
+    color: var(--text);
+}
+
+body.dark-mode .inbox-item:hover {
+    background: var(--bg-medium);
+}
+
+body.dark-mode .inbox-item strong {
+    color: var(--text-dark);
+}
+
+body.dark-mode .profile-card,
+body.dark-mode .activity-card,
+body.dark-mode .task-detail-card,
+body.dark-mode .comments-section {
+    background: var(--bg-light);
+    color: var(--text);
+}
+
+body.dark-mode .profile-card h2,
+body.dark-mode .activity-card h2,
+body.dark-mode .task-detail-card h1,
+body.dark-mode .comments-section h2 {
+    color: var(--text-dark);
+}
+
+body.dark-mode .profile-info-item label,
+body.dark-mode .task-details-grid label {
+    color: var(--text-light);
+}
+
+body.dark-mode .profile-info-item span,
+body.dark-mode .task-details-grid span {
+    color: var(--text);
+}
+
+body.dark-mode .comment-item {
+    background: var(--bg-medium);
+    color: var(--text);
+}
+
+body.dark-mode .comment-item:hover {
+    background: #475569;
+}
+
+body.dark-mode .comment-author {
+    color: var(--text-dark);
+}
+
+body.dark-mode .comment-content {
+    color: var(--text);
+}
+
+body.dark-mode #commentInput {
+    background: var(--bg-medium);
+    color: var(--text);
+}
+
+body.dark-mode #commentInput:focus {
+    background: var(--bg-light);
+    color: var(--text);
+}
+
+/* Dark mode navbar adjustments */
+body.dark-mode .navbar {
+    background: rgba(15, 23, 42, 0.95);
+    backdrop-filter: blur(10px);
+}
+
+body.dark-mode .sidebar {
+    background: #1a1f2e;
+    border-right-color: var(--border);
+}
+
+body.dark-mode .sidebar-header h1 {
+    color: white;
+}
+
+body.dark-mode .sidebar-link:hover {
+    background: var(--bg-medium);
+}
+
+body.dark-mode .sidebar-link.active {
+    background: var(--primary-light);
+}
+
+body.dark-mode .nav-item {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+body.dark-mode .nav-item:hover,
+body.dark-mode .nav-item.active {
+    color: white;
+}
+
+body.dark-mode .user-name {
+    color: white;
+}
+
+body.dark-mode .user-email {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* Dark mode form adjustments */
+body.dark-mode .auth-card,
+body.dark-mode .landing-page {
+    background: var(--light);
+}
+
+body.dark-mode .form-group input {
+    background: var(--bg-medium);
+    color: var(--text);
+}
+
+body.dark-mode .form-group label {
+    color: var(--text-dark);
+}
+
+/* Dark mode search and filters */
+body.dark-mode #searchInput {
+    background: var(--bg-medium);
+    color: var(--text);
+    border-color: var(--border);
+}
+
+body.dark-mode #searchInput::placeholder {
+    color: var(--text-light);
+}
+
+body.dark-mode #searchInput:focus {
+    background: var(--bg-light);
+    border-color: var(--primary);
+}
+
+body.dark-mode #priorityFilter,
+body.dark-mode #sortBy {
+    background: var(--bg-medium);
+    color: var(--text);
+    border-color: var(--border);
+}
+
+body.dark-mode option {
+    background: var(--bg-light);
+    color: var(--text);
+}
+
+/* Dark mode empty state */
+body.dark-mode .empty-state p {
+    color: var(--text-light);
+}
+
+body.dark-mode .task-title {
+    color: var(--text-dark);
+}
+
+body.dark-mode .task-description {
+    color: var(--text);
+}
+
+/* Dark mode deadline warning */
+body.dark-mode .deadline-warning {
+    background: rgba(251, 191, 36, 0.15);
+    border-color: var(--warning);
+    color: var(--text);
+}
+
+/* Dark mode badge adjustments */
+body.dark-mode .status-badge,
+body.dark-mode .priority-badge {
+    opacity: 0.9;
+}
+
+body.dark-mode .status-badge.todo {
+    background: rgba(156, 163, 175, 0.2);
+    color: #d1d5db;
+}
+
+body.dark-mode .status-badge.in_progress {
+    background: rgba(251, 191, 36, 0.2);
+    color: #fcd34d;
+}
+
+body.dark-mode .status-badge.completed {
+    background: rgba(52, 211, 153, 0.2);
+    color: #6ee7b7;
+}
+
+body.dark-mode .priority-badge.high {
+    background: rgba(248, 113, 113, 0.2);
+    color: #fca5a5;
+}
+
+body.dark-mode .priority-badge.medium {
+    background: rgba(251, 191, 36, 0.2);
+    color: #fcd34d;
+}
+
+body.dark-mode .priority-badge.low {
+    background: rgba(156, 163, 175, 0.2);
+    color: #d1d5db;
+}
+
+/* Dark mode activity items */
+body.dark-mode .activity-item {
+    background: var(--bg-medium);
+    color: var(--text);
+}
+
+body.dark-mode .activity-item:hover {
+    background: #475569;
+}
+
+body.dark-mode .activity-item strong {
+    color: var(--text-dark);
+}
+
+body.dark-mode .activity-time {
+    color: var(--text-light);
+}
+
+/* Dark mode scroll bar */
+body.dark-mode::-webkit-scrollbar {
+    background: var(--bg-light);
+}
+
+body.dark-mode::-webkit-scrollbar-thumb {
+    background: var(--bg-medium);
+}
+
+body.dark-mode::-webkit-scrollbar-thumb:hover {
+    background: #475569;
+}

@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+{% block title %}My Profile{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="profile-container">
+
+    <!-- Header -->
+    <div class="profile-header">
+        <h1>👤 My Profile</h1>
+        <div class="header-buttons">
+            <a href="{{ url_for('dashboard') }}" class="btn-secondary">← Go Back</a>
+            <button class="btn-primary" id="editProfileBtn">Edit Profile</button>
+        </div>
+    </div>
+
+    <!-- Profile Card -->
+    <div class="profile-card">
+        <div class="avatar-wrapper">
+            <div class="profile-avatar" id="profileAvatar"></div>
+            <p class="avatar-name">{{ current_user.username }}</p>
+        </div>
+
+        <div class="profile-info">
+            <div class="info-row">
+                <label>Username</label>
+                <span id="profileUsername">{{ current_user.username }}</span>
+            </div>
+
+            <div class="info-row">
+                <label>Email</label>
+                <span id="profileEmail">{{ current_user.email }}</span>
+            </div>
+
+            <div class="info-row">
+                <label>Phone</label>
+                <span id="profilePhone">{{ current_user.phone or 'Not provided' }}</span>
+            </div>
+
+            <div class="info-row">
+                <label>Role</label>
+                <span id="profileRole" class="role-badge">{{ current_user.role }}</span>
+            </div>
+
+            <div class="info-row">
+                <label>Bio</label>
+                <span id="profileBio">{{ current_user.bio or 'No bio provided' }}</span>
+            </div>
+
+            <div class="info-row">
+                <label>Member Since</label>
+                <span id="profileCreated">{{ current_user.created_at.strftime('%B %d, %Y') }}</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Activity Log -->
+    <div class="activity-section">
+        <div class="activity-header">
+            <h2>📘 Your Activity Log</h2>
+            <button class="btn-danger btn-small" id="deleteAllActivityBtn">🗑️ Delete All</button>
+        </div>
+        <div id="activityList" class="activity-list">
+            <p class="activity-empty">Loading activity...</p>
+        </div>
+    </div>
+
+</div>
+
+<!-- Edit Profile Modal -->
+<div id="editProfileModal" class="edit-modal">
+    <div class="edit-modal-content">
+        <div class="edit-modal-header">
+            <h2>Edit Profile</h2>
+            <button class="edit-close-btn" onclick="closeEditModal()">&times;</button>
+        </div>
+        <form id="editProfileForm" onsubmit="handleEditSubmit(event)">
+            <div class="edit-form-group">
+                <label for="editUsername">Username</label>
+                <input type="text" id="editUsername" name="username" value="{{ current_user.username }}" required>
+            </div>
+            <div class="edit-form-group">
+                <label for="editEmail">Email</label>
+                <input type="email" id="editEmail" name="email" value="{{ current_user.email }}" required>
+            </div>
+            <div class="edit-form-group">
+                <label for="editPhone">Phone</label>
+                <input type="tel" id="editPhone" name="phone" value="{{ current_user.phone or '' }}">
+            </div>
+            <div class="edit-form-group">
+                <label for="editBio">Bio</label>
+                <textarea id="editBio" name="bio">{{ current_user.bio or '' }}</textarea>
+            </div>
+            <div class="edit-form-group">
+                <label>Avatar Color</label>
+                <div class="color-picker-grid">
+                    <div class="color-option" style="background: #667eea" data-color="#667eea"></div>
+                    <div class="color-option" style="background: #764ba2" data-color="#764ba2"></div>
+                    <div class="color-option" style="background: #f093fb" data-color="#f093fb"></div>
+                    <div class="color-option" style="background: #4facfe" data-color="#4facfe"></div>
+                    <div class="color-option" style="background: #43e97b" data-color="#43e97b"></div>
+                    <div class="color-option" style="background: #fa709a" data-color="#fa709a"></div>
+                    <div class="color-option" style="background: #30cfd0" data-color="#30cfd0"></div>
+                    <div class="color-option" style="background: #a8edea" data-color="#a8edea"></div>
+                    <div class="color-option" style="background: #ff6b6b" data-color="#ff6b6b"></div>
+                    <div class="color-option" style="background: #feca57" data-color="#feca57"></div>
+                    <div class="color-option" style="background: #48dbfb" data-color="#48dbfb"></div>
+                    <div class="color-option" style="background: #ff9ff3" data-color="#ff9ff3"></div>
+                </div>
+                <input type="hidden" id="editAvatarColor" name="avatar_color" value="{{ current_user.avatar_color or '#667eea' }}">
+            </div>
+            <div class="edit-modal-actions">
+                <button type="button" class="edit-cancel-btn" onclick="closeEditModal()">Cancel</button>
+                <button type="submit" class="edit-save-btn">Save Changes</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Pass data to JavaScript -->
+<script>
+    window.profileUsername = "{{ current_user.username }}";
+    window.profileAvatarColor = "{{ current_user.avatar_color or '#667eea' }}";
+</script>
+<script src="{{ url_for('static', filename='js/profile.js') }}"></script>
+
+{% endblock %}

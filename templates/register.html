@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+<body class="modern-login-page">
+    <main class="login-screen" aria-label="Register form section">
+        <div class="login-panel register-panel">
+            <h1>Register</h1>
+
+            <form class="login-form" action="{{ url_for('register') }}" method="POST" autocomplete="off">
+                <input type="text" name="username" placeholder="Username" aria-label="Username" required>
+                <input type="email" name="email" placeholder="Email@example.com" autocomplete="email" aria-label="Email" required>
+                <input type="password" name="password" placeholder="Password" autocomplete="new-password" aria-label="Password" required>
+
+                <button type="submit">Register</button>
+            </form>
+
+            <div class="register-footer">
+                Already have an account? <a href="{{ url_for('login') }}">Login here</a>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

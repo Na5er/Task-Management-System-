@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login / Register</title>
+
+    <!-- use main style.css for auth styling (auth-specific rules appended there) -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+
+<body class="modern-login-page">
+    <main class="login-screen" aria-label="Login form section">
+        <div class="login-panel">
+            <h1>Login Now</h1>
+
+            <form class="login-form" action="{{ url_for('login') }}" method="POST" autocomplete="off">
+                <input type="text" name="username" placeholder="Username" autocomplete="username" aria-label="Username" required>
+                <input type="password" name="password" placeholder="Password" autocomplete="current-password" aria-label="Password" required>
+
+                <label class="remember-row" for="remember">
+                    <input id="remember" type="checkbox" checked>
+                    <span>Keep me logged in</span>
+                </label>
+
+                <button type="submit">Log In</button>
+            </form>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category if category != 'error' else 'error' }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <a href="#" class="forgot-link">Forgot Password?</a>
+        </div>
+    </main>
+
+</body>
+</html>

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - TaskFlow</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}?v=10">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard-extra.css') }}?v=10">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/purple-theme.css') }}?v=10">
+</head>
+<body>
+    <!-- Static desk background layer -->
+    <div class="page-bg" aria-hidden="true"></div>
+    <div class="dashboard">
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1>📋 TaskFlow</h1>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" data-view="all"><span class="icon">📊</span> All Tasks</a>
+                <a href="#" class="nav-item" data-view="todo"><span class="icon">📝</span> To Do</a>
+                <a href="#" class="nav-item" data-view="in_progress"><span class="icon">⚡</span> In Progress</a>
+                <a href="#" class="nav-item" data-view="completed"><span class="icon">✅</span> Completed</a>
+                <a href="#" class="nav-item" data-view="analytics"><span class="icon">📈</span> Analytics</a>
+                {% if current_user.role in ['admin', 'manager'] %}<a href="#" class="nav-item" data-view="groups"><span class="icon">👥</span> Groups</a>{% endif %}
+                <div class="nav-divider"></div>
+                <a href="#" class="nav-item" data-view="high"><span class="icon">🔴</span> High Priority</a>
+                <a href="#" class="nav-item" data-view="overdue"><span class="icon">⚠️</span> Overdue</a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar">{{ user.username[0].upper() }}</div>
+                    <div class="user-details">
+                        <div class="user-name">{{ user.username }}</div>
+                        <div class="user-email">{{ user.email }}</div>
+                    </div>
+                    <div class="user-actions">
+                        <a href="{{ url_for('profile') }}" class="mini-icon-btn" title="Profile" aria-label="Profile">👤</a>
+                        <a href="{{ url_for('logout') }}" class="mini-icon-btn" title="Logout" aria-label="Logout">↩</a>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+            <!-- HEADER -->
+            <header class="dashboard-header">
+                <div class="header-left">
+                    <p class="eyebrow">Overview</p>
+                    <h2 id="viewTitle">All Tasks</h2>
+                </div>
+                <div class="header-right">
+                    <div class="header-actions">
+                        <button id="darkModeToggle" class="dark-mode-toggle" title="Toggle Dark Mode" aria-label="Toggle dark mode">
+                            <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M12 18C8.68629 18 6 15.3137 6 12C6 8.68629 8.68629 6 12 6C15.3137 6 18 8.68629 18 12C18 15.3137 15.3137 18 12 18ZM12 16C14.2091 16 16 14.2091 16 12C16 9.79086 14.2091 8 12 8C9.79086 8 8 9.79086 8 12C8 14.2091 9.79086 16 12 16ZM11 1H13V4H11V1ZM11 20H13V23H11V20ZM3.51472 4.92893L4.92893 3.51472L7.05025 5.63604L5.63604 7.05025L3.51472 4.92893ZM16.9497 18.364L18.364 16.9497L20.4853 19.0711L19.0711 20.4853L16.9497 18.364ZM19.0711 3.51472L20.4853 4.92893L18.364 7.05025L16.9497 5.63604L19.0711 3.51472ZM5.63604 16.9497L7.05025 18.364L4.92893 20.4853L3.51472 19.0711L5.63604 16.9497ZM23 11V13H20V11H23ZM4 11V13H1V11H4Z"/>
+                            </svg>
+                            <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M10 7C10 10.866 13.134 14 17 14C18.9584 14 20.729 13.1957 21.9995 11.8995C22 11.933 22 11.9665 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C12.0335 2 12.067 2 12.1005 2.00049C10.8043 3.27098 10 5.04157 10 7ZM4 12C4 16.4183 7.58172 20 12 20C15.0583 20 17.7158 18.2839 19.062 15.7621C18.3945 15.9187 17.7035 16 17 16C12.0294 16 8 11.9706 8 7C8 6.29648 8.08133 5.60547 8.2379 4.938C5.71611 6.28423 4 8.9417 4 12Z"/>
+                            </svg>
+                        </button>
+                        <div class="inbox-container" style="position: relative;">
+                            <button id="inboxBtn" class="btn btn-outline" title="Inbox" aria-label="Inbox">🔔 <span id="inboxBadge" class="inbox-badge" style="display:none">0</span></button>
+                            <div id="inboxDropdown" class="inbox-dropdown" style="display:none"></div>
+                        </div>
+                        <button class="btn btn-primary" id="newTaskBtn"><span>+ New Task</span></button>
+                    </div>
+                </div>
+            </header>
+
+            <!-- ✅ DEADLINE ALERT (Server-side fallback) -->
+            {% if approaching_tasks and approaching_tasks|length > 0 %}
+                <div id="serverDeadlineAlert">
+                <div class="deadline-warning">
+                    <i>⏰</i>
+                    <span>
+                        You have <strong>{{ approaching_tasks|length }}</strong> task{{ 's' if approaching_tasks|length > 1 else '' }}
+                        with deadlines approaching soon!
+                    </span>
+                </div>
+                <ul style="margin-left: 15px; margin-bottom: 15px; font-size: 0.9rem;">
+                    {% for task in approaching_tasks %}
+                        <li><strong>{{ task.title }}</strong> — due {{ task.deadline.strftime("%Y-%m-%d %H:%M") }}</li>
+                    {% endfor %}
+                </ul>
+                </div>
+            {% endif %}
+
+            <!-- STATS -->
+            <section class="stats-grid" aria-label="Task summary cards">
+                <div class="stat-card">
+                    <div class="stat-icon stat-icon--blue">📋</div>
+                    <div class="stat-content"><div class="stat-value" id="totalTasks">0</div><div class="stat-label">Total</div></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon stat-icon--amber">⚡</div>
+                    <div class="stat-content"><div class="stat-value" id="inProgressTasks">0</div><div class="stat-label">In Progress</div></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon stat-icon--emerald">✅</div>
+                    <div class="stat-content"><div class="stat-value" id="completedTasks">0</div><div class="stat-label">Completed</div></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon stat-icon--rose">⚠️</div>
+                    <div class="stat-content"><div class="stat-value" id="overdueTasks">0</div><div class="stat-label">Overdue</div></div>
+                </div>
+            </section>
+
+            <!-- FILTERS -->
+            <section class="filters-bar" aria-label="Task filters and sorting">
+                <input type="text" id="searchInput" placeholder="Search tasks..." class="search-input">
+                <select id="priorityFilter" class="filter-select">
+                    <option value="">All Priorities</option>
+                    <option value="high">High</option>
+                    <option value="medium">Medium</option>
+                    <option value="low">Low</option>
+                </select>
+                <select id="sortBy" class="filter-select">
+                    <option value="created_desc">Newest First</option>
+                    <option value="created_asc">Oldest First</option>
+                    <option value="deadline_asc">Deadline (Soonest)</option>
+                    <option value="priority_desc">Priority (High → Low)</option>
+                </select>
+            </section>
+
+            <!-- TASK GRID -->
+            <div id="tasksContainer" class="tasks-grid"></div>
+
+            <section id="analyticsPanel" class="insights-panel" style="display:none">
+                <div class="insights-summary"><div class="insight-gauge"><strong id="analyticsCompletionRate">0%</strong><span>Overall completion</span></div><div class="insight-block"><h3>Status breakdown</h3><div id="analyticsStatus"></div></div><div class="insight-block"><h3>Progress distribution</h3><div id="analyticsDistribution"></div></div></div>
+                <div class="insight-block"><h3>Member performance</h3><div id="analyticsMembers"></div></div>
+            </section>
+
+            <section id="groupsPanel" class="insights-panel" style="display:none">
+                <div class="panel-heading"><div><h3>Groups & Teams</h3><p>Organize people around shared work.</p></div><button class="btn btn-primary" onclick="createGroup()">+ New Group</button></div>
+                <div id="groupsList" class="groups-list"></div>
+            </section>
+
+            <!-- EMPTY STATE -->
+            <div id="emptyState" class="empty-state" style="display: none;">
+                <div class="empty-icon">📭</div>
+                <h3>No tasks found</h3>
+                <p>Create your first task to get started!</p>
+                <button class="btn btn-primary" onclick="document.getElementById('newTaskBtn').click()">Create Task</button>
+            </div>
+        </main>
+    </div>
+
+    <!-- ======================= TASK MODAL (REPLACEMENT) ======================= -->
+<div id="taskModal" class="modal">
+    <div class="modal-panel">
+        
+        <!-- Header -->
+        <div class="modal-header">
+            <h3 id="modalTitle">Create New Task</h3>
+            <button class="modal-close" onclick="closeTaskModal()">&times;</button>
+        </div>
+
+        <!-- Body -->
+        <form id="taskForm" class="modal-body">
+            <input type="hidden" id="taskId">
+            <div class="modal-fields">
+
+            <div class="form-group">
+                <label for="taskTitle">Title *</label>
+                <input type="text" id="taskTitle" required placeholder="Enter task title" class="input-field">
+            </div>
+
+            <div class="form-group">
+                <label for="taskDescription">Description</label>
+                <textarea id="taskDescription" rows="4" placeholder="Enter task description" class="textarea-field"></textarea>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="taskPriority">Priority</label>
+                    <select id="taskPriority" class="select-field">
+                        <option value="low">Low</option>
+                        <option value="medium" selected>Medium</option>
+                        <option value="high">High</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="taskStatus">Status</label>
+                    <select id="taskStatus" class="select-field">
+                        <option value="todo" selected>To Do</option>
+                        <option value="in_progress">In Progress</option>
+                        <option value="completed">Completed</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group progress-editor">
+                <label for="taskProgress">Progress <span id="taskProgressValue">0%</span></label>
+                <input type="range" id="taskProgress" min="0" max="100" value="0" oninput="document.getElementById('taskProgressValue').textContent = this.value + '%'">
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="taskDeadline">Deadline</label>
+                    <input type="datetime-local" id="taskDeadline" class="input-field">
+                </div>
+
+                <div class="form-group">
+                    <label for="taskAssignee">Assign To</label>
+                    <select id="taskAssignee" class="select-field">
+                        <option value="">Myself</option>
+                    </select>
+                </div>
+            </div>
+            </div>
+            <!-- Footer buttons -->
+            <div class="modal-actions">
+            <button type="button" class="btn btn-outline" onclick="closeTaskModal()">Cancel</button>
+                <button type="submit" class="btn btn-primary">Save Task</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/app.js') }}?v=10"></script>
+<script>
+    // Pass current user info to JavaScript
+    window.currentUserId = {{ current_user.id }};
+    window.currentUserRole = "{{ current_user.role }}";
+</script>
+</body>
+</html>

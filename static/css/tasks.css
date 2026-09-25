@@ -1,0 +1,189 @@
+/* ========== TASK CARDS & GRID ========== */
+.tasks-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 24px;
+}
+
+.task-card {
+    background: white;
+    padding: 24px;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    transition: all 0.3s ease;
+    position: relative;
+    border-left: 4px solid var(--border);
+    cursor: pointer;
+}
+
+.task-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-left-width: 6px;
+}
+
+.task-card.priority-high {
+    border-left-color: var(--danger);
+}
+
+.task-card.priority-medium {
+    border-left-color: var(--warning);
+}
+
+.task-card.priority-low {
+    border-left-color: var(--success);
+}
+
+.task-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    margin-bottom: 12px;
+}
+
+.task-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.task-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.task-action-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    padding: 4px;
+    border-radius: 4px;
+    transition: background 0.3s ease;
+}
+
+.task-action-btn:hover {
+    background: var(--light);
+}
+
+.task-description {
+    color: var(--text-light);
+    font-size: 14px;
+    margin-bottom: 16px;
+    line-height: 1.5;
+}
+
+.task-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.task-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.badge-status {
+    background: #dbeafe;
+    color: #1e40af;
+}
+
+.badge-status.todo {
+    background: #f3f4f6;
+    color: #374151;
+}
+
+.badge-status.in_progress {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.badge-status.completed {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.badge-priority {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.badge-priority.medium {
+    background: #fed7aa;
+    color: #9a3412;
+}
+
+.badge-priority.low {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.task-deadline {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-light);
+    font-size: 13px;
+    margin-bottom: 12px;
+}
+
+.task-deadline.overdue {
+    color: var(--danger);
+    font-weight: 600;
+}
+
+.task-assignee {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--text-light);
+}
+
+.assignee-avatar {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    color: white;
+    font-weight: 600;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 80px 20px;
+}
+
+/* --- Perfect Dashboard Redesign --- */
+
+/* Vibrant animated background */
+.page-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background:
+        radial-gradient(circle at 20% 30%, #7a3fb1 0%, transparent 60%),
+        radial-gradient(circle at 80% 70%, #ff3cac 0%, transparent 60%),
+        linear-gradient(120deg, #2d1856 0%, #7a3fb1 60%, #ff3cac 100%);
+    opacity: 1;
+    transition: opacity 300ms ease;
+    filter: blur(0.5px) saturate(120%);
+    animation: bgShift 22s ease-in-out infinite;
+}
+@keyframes bgShift {
+    0% { filter: blur(0.5px) saturate(120%) brightness(1); }
+    50% { filter: blur(2px) saturate(140%) brightness(1.08); }
+    100% { filter: blur(0.5px) saturate(120%) brightness(1); }
+}
